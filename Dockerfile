@@ -28,5 +28,8 @@ COPY --from=builder /app/my-go-api .
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
+# Ensure the binary is executable
+RUN chmod +x ./my-go-api
+
 # Command to run the executable
 CMD ["./my-go-api"]
