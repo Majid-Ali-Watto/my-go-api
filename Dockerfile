@@ -17,7 +17,7 @@ COPY . .
 COPY .env ./
 
 # Copy the config.yaml file to the working directory
-COPY configs/config.yaml ./configs/
+COPY configs/config.yaml ./
 
 # Build the Go app from the cmd/app directory
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o my-go-api ./cmd/app/main.go
