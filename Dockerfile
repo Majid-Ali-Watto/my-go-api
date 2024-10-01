@@ -33,7 +33,7 @@ WORKDIR /root/
 
 # Copy the Pre-built binary file and .env file from the builder stage
 COPY --from=builder /app/my-go-api .
-COPY --from=builder /app/.env ./
+# COPY --from=builder /app/.env ./
 COPY --from=builder /app/configs/config.yaml ./configs/
 
 # Expose port 8080 to the outside world
