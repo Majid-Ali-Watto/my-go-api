@@ -1,26 +1,32 @@
-# Use a base image with the desired Go version
+# Use the Go 1.23 image as the build stage
 FROM golang:1.23 AS builder
 
 # Set the Current Working Directory inside the container
 WORKDIR /app
 
-# Copy only the necessary files to build the app
+# Copy go.mod and go.sum first to cache dependencies
 COPY go.mod go.sum ./
+
+# Download all dependencies
 RUN go mod download
 
-COPY ./cmd/app/ ./cmd/app/
+# Copy the rest of the application code
+COPY . .
 
-# Build the Go app
+# Build the Go app from the cmd/app directory
 RUN go build -o my-go-api ./cmd/app/main.go
 
-# Start a new stage from scratch using a lightweight image
+# Start a new stage from a lightweight alpine image
 FROM alpine:latest
 
 # Set the Current Working Directory inside the container
 WORKDIR /root/
 
-# Copy the Pre-built binary file from the previous stage
+# Copy the Pre-built binary file from the builder stage
 COPY --from=builder /app/my-go-api .
+
+# Expose port 8080 to the outside world
+EXPOSE 8080
 
 # Command to run the executable
 CMD ["./my-go-api"]
