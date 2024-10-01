@@ -6,25 +6,26 @@ on:
       - master
 
 jobs:
-  build-and-push:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      # Log in to Docker Hub
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Set up Go 1.23
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.23
 
-      # Build the Docker image
-      - name: Build the Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-go-api:latest .
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Push the Docker image to Docker Hub
-      - name: Push the Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/my-go-api:latest
+    - name: Build Docker image
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-go-api .
+
+    - name: Push Docker image
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/my-go-api
