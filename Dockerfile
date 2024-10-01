@@ -14,7 +14,7 @@ RUN go mod download
 COPY . .
 
 # Copy the .env file to the working directory
-COPY .env ./
+# COPY .env ./
 
 # Copy the config.yaml file to the working directory
 COPY configs/config.yaml ./

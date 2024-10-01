@@ -5,16 +5,15 @@ import (
 	v1 "my-go-api/api/v1"
 	"my-go-api/configs"
 	"net/http"
-
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 )
 
 func main() {
 	// Load the .env file
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	log.Fatal("Error loading .env file")
+	// }
 
 	// Load configuration from yaml file
 	configs.LoadConfig()
