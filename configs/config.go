@@ -37,8 +37,8 @@ func LoadConfig() {
 	if err := yaml.Unmarshal(data, &AppConfig); err != nil {
 		log.Fatalf("Error parsing config file: %v", err)
 	}
-
-	// Check for environment variable
+	log.Println(os.Getenv("PORT"))
+	// Check for environment variable from .env file
 	if port := os.Getenv("PORT"); port != "" {
 		AppConfig.Server.Port = port
 	}
