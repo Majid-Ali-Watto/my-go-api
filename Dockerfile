@@ -13,17 +13,28 @@ RUN go mod download
 # Copy the rest of the application code
 COPY . .
 
+# Copy the .env file to the working directory
+COPY .env ./
+
+# Copy the config.yaml file to the working directory
+COPY configs/config.yaml ./configs/
+
 # Build the Go app from the cmd/app directory
-RUN go build -o my-go-api ./cmd/app/main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o my-go-api ./cmd/app/main.go
 
 # Start a new stage from a lightweight alpine image
 FROM alpine:latest
 
+# Install dependencies for the application
+RUN apk --no-cache add ca-certificates
+
 # Set the Current Working Directory inside the container
 WORKDIR /root/
 
-# Copy the Pre-built binary file from the builder stage
+# Copy the Pre-built binary file and .env file from the builder stage
 COPY --from=builder /app/my-go-api .
+COPY --from=builder /app/.env ./
+COPY --from=builder /app/configs/config.yaml ./configs/
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
