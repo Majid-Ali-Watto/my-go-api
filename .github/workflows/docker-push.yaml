@@ -1,4 +1,4 @@
-name: Docker Publish
+name: Build and Push Docker Image
 
 on:
   push:
@@ -6,26 +6,25 @@ on:
       - master
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the code
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
+      # Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/my-go-api:latest
+      # Build the Docker image
+      - name: Build the Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-go-api:latest .
+
+      # Push the Docker image to Docker Hub
+      - name: Push the Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/my-go-api:latest
