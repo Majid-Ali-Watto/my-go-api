@@ -18,6 +18,8 @@ func GetItemByID(id int) (models.Item, error) {
 	}
 	return item, nil
 }
+
+// RemoveItem removes an item from the repository based on its ID.
 func RemoveItemByID(id int) (models.Item, error) {
 	item, err := repositories.RemoveItemByID(id)
 	if err != nil {
@@ -26,6 +28,8 @@ func RemoveItemByID(id int) (models.Item, error) {
 	return item, nil
 }
 
+// UpdateItemByID updates an item from the repository based on its ID
+// It accepts two params, ID and UpdatedItem
 func UpdateItemByID(id int, newItem models.Item) (models.Item, error) {
 	item, err := repositories.UpdateItemByID(id, newItem)
 	if err != nil {

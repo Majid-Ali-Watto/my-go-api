@@ -49,6 +49,8 @@ func GetItemByID(w http.ResponseWriter, r *http.Request) {
 	}
 	utils.SendJSONResponse(w, http.StatusOK, response)
 }
+
+// The function `RemoveItemByID` handles the removal of an item by ID from a server
 func RemoveItemByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r) // Get path variables
 	idStr := vars["id"] // Extract ID from path
@@ -77,6 +79,8 @@ func RemoveItemByID(w http.ResponseWriter, r *http.Request) {
 	utils.SendJSONResponse(w, http.StatusOK, response)
 }
 
+// This function updates an item by ID based on the request data and sends appropriate JSON
+// responses.
 func UpdateItemByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r) // Get path variables
 	idStr := vars["id"] // Extract ID from path
